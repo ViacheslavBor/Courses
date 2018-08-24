@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Main Page</title>
+	<meta charset="utf-8">
+</head>
+<body>
+	<h1>Hello {{user.name}}</h1>
+	<h1>Add a new course</h1>
+	<form action="/add_course" method="POST">
+		{% csrf_token %}
+		Name:   <input type="test" name="name"><br><br>
+		Description:<br><textarea name="description" cols="20" rows="10"></textarea><br><br>
+		<select name="university">
+			{% for uv in all_universities %}
+			<option value="{{uv.id}}">{{uv.name}}</option>
+			{% endfor %}
+		</select>
+		<input type="submit" value="Add">
+	</form>
+	<table>
+		<tr>
+			<th>University</th>
+			<th>Course Name</th>
+			<th>Description</th>
+			<th>Date Added</th>
+			<th>Actions</th>
+		</tr>
+		{% for course in all_courses %}
+		<tr>
+			<td>{{course.universities.first.name}}</td>
+			<td>{{course.name}}</td>
+			<td>{{course.description}}</td>
+			<td>{{course.created_at}}</td>
+			<td><a href="/remove/{{course.id}}">remove</a></td>
+		</tr>
+		{% endfor %}
+	</table>
+	<h3>Join University</h3>
+	<form action="/join_uni" method="POST">
+		{% csrf_token %}
+		<select name="university">
+			{% for uv in all_universities %}
+			<option value="{{uv.id}}">{{uv.name}}</option>
+			{% endfor %}
+		</select>
+		<input type="submit" value="Add">
+	</form>
+</body>
+</html>
